@@ -1,0 +1,13 @@
+﻿@*localization service for installation service
+    we do not use standard nopCommerce localization because database is not installed yet
+    locale resources for installation process are stored into \App_Data\Localization\Installation directory*@
+@inject IInstallationLocalizationService ILS
+
+@removeTagHelper *, Veyesys.Web.Framework
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using Veyesys.Data
+@using Veyesys.Services.Common
+@using static Veyesys.Services.Common.LinksDefaults
+@using Veyesys.Web.Models.Install
+@using Veyesys.Web.Infrastructure.Installation

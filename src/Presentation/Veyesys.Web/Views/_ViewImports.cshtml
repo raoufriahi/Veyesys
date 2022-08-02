@@ -1,0 +1,31 @@
+﻿inherits Veyesys.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+
+@inject IHtmlHelper NopHtml
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@*we remove the default InputTagHelper to prevent the checkbox duplicating: https://stackoverflow.com/questions/42544961/asp-net-core-custom-input-tag-helper-rendering-duplicate-checkboxes*@
+@removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.InputTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Veyesys.Web.Framework
+@addTagHelper *, MiniProfiler.AspNetCore.Mvc
+
+@using System.Globalization;
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using Microsoft.Extensions.Primitives
+@using static Veyesys.Services.Common.LinksDefaults
+@using Veyesys.Web.Framework
+@using Veyesys.Web.Framework.Infrastructure
+@using Veyesys.Web.Framework.UI
+@*@using Veyesys.Web.Extensions
+
+@using Veyesys.Web.Framework.Extensions
+@using Veyesys.Web.Framework.Events
+
+@using Veyesys.Web.Framework.Models
+@using Veyesys.Web.Framework.Security.Captcha
+@using Veyesys.Web.Framework.Security.Honeypot
+@using Veyesys.Web.Framework.Themes
+
+@using Veyesys.Web.Models.Cms
+@using Veyesys.Web.Models.Common
+*@
