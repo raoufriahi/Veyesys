@@ -14,21 +14,17 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
-/*
-
-using Nop.Core.Domain.Common;
-using Nop.Core.Http;
-
-using Nop.Data.Migrations;
-using Nop.Services.Authentication;
-using Nop.Services.Common;
-using Nop.Services.Installation;
-using Nop.Services.Localization;
-
-using Nop.Services.Media.RoxyFileman;
-using Nop.Services.Plugins;
-using Nop.Services.ScheduleTasks;
-using Nop.Web.Framework.Mvc.Routing;*/
+using Veyesys.Core.Domain.Common;
+using Veyesys.Services.Localization;
+using Veyesys.Core.Http;
+using Veyesys.Data.Migrations;
+using Veyesys.Services.Plugins;
+using Veyesys.Services.ScheduleTasks;
+using Veyesys.Web.Framework.Mvc.Routing;
+using Veyesys.Services.Installation;
+using Veyesys.Services.Common;
+using Veyesys.Services.Authentication;
+using Veyesys.Services.Media.RoxyFileman;
 using Veyesys.Core;
 using Veyesys.Core.Configuration;
 using Veyesys.Core.Infrastructure;
@@ -62,14 +58,14 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             if (DataSettingsManager.IsDatabaseInstalled())
             {
                 //log application start
- /*               engine.Resolve<ILogger>().InformationAsync("Application started").Wait();
+                engine.Resolve<ILogger>().InformationAsync("Application started").Wait();
 
                 //install and update plugins
                 var pluginService = engine.Resolve<IPluginService>();
                 pluginService.InstallPluginsAsync().Wait();
                 pluginService.UpdatePluginsAsync().Wait();
 
-                //update nopCommerce core and db
+                //update Veyesys core and db
                 var migrationManager = engine.Resolve<IMigrationManager>();
                 var assembly = Assembly.GetAssembly(typeof(ApplicationBuilderExtensions));
                 migrationManager.ApplyUpMigrations(assembly, MigrationProcessType.Update);
@@ -78,7 +74,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
 
                 var taskScheduler = engine.Resolve<ITaskScheduler>();
                 taskScheduler.InitializeAsync().Wait();
-                taskScheduler.StartScheduler();*/
+                taskScheduler.StartScheduler();
             }
             
         }
@@ -89,7 +85,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopExceptionHandler(this IApplicationBuilder application)
         {
-          /*  var appSettings = EngineContext.Current.Resolve<AppSettings>();
+           var appSettings = EngineContext.Current.Resolve<AppSettings>();
             var webHostEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
             var useDetailedExceptionPage = appSettings.Get<CommonConfig>().DisplayFullErrorStack || webHostEnvironment.IsDevelopment();
             if (useDetailedExceptionPage)
@@ -131,7 +127,6 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                     }
                 });
             });
-          */
         }
 
         /// <summary>
@@ -140,7 +135,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UsePageNotFound(this IApplicationBuilder application)
         {
-            /*
+           
             application.UseStatusCodePages(async context =>
             {
                 //handle 404 Not Found
@@ -183,7 +178,6 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                     }
                 }
             });
-            */
         }
 
         /// <summary>
@@ -212,14 +206,12 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopResponseCompression(this IApplicationBuilder application)
         {
-            
-            //if (!DataSettingsManager.IsDatabaseInstalled())
-            //    return;
+            if (!DataSettingsManager.IsDatabaseInstalled())
+                return;
 
-            ////whether to use compression (gzip by default)
-            //if (EngineContext.Current.Resolve<CommonSettings>().UseResponseCompression)
-            //    application.UseResponseCompression();
-            
+            //whether to use compression (gzip by default)
+            if (EngineContext.Current.Resolve<CommonSettings>().UseResponseCompression)
+                application.UseResponseCompression();
         }
 
         /// <summary>
@@ -228,7 +220,6 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopWebOptimizer(this IApplicationBuilder application)
         {
-            /*
             var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
             var webHostEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
 
@@ -245,7 +236,6 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                     FileProvider = new PhysicalFileProvider(fileProvider.MapPath(@"Themes"))
                 }
             });
-            */
         }
 
         /// <summary>
@@ -254,7 +244,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopStaticFiles(this IApplicationBuilder application)
         {
-            /*
+            
             var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
             var appSettings = EngineContext.Current.Resolve<AppSettings>();
 
@@ -344,7 +334,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                     ServeUnknownFileTypes = true,
                 });
             }
-            */
+            
         }
 
         /// <summary>
@@ -353,7 +343,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseKeepAlive(this IApplicationBuilder application)
         {
-         //RRH   application.UseMiddleware<KeepAliveMiddleware>();
+            application.UseMiddleware<KeepAliveMiddleware>();
         }
 
         /// <summary>
@@ -362,7 +352,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseInstallUrl(this IApplicationBuilder application)
         {
-           //RRH application.UseMiddleware<InstallUrlMiddleware>();
+            application.UseMiddleware<InstallUrlMiddleware>();
         }
 
         /// <summary>
@@ -371,13 +361,12 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopAuthentication(this IApplicationBuilder application)
         {
-            /*
+            
             //check whether database is installed
             if (!DataSettingsManager.IsDatabaseInstalled())
                 return;
 
             application.UseMiddleware<AuthenticationMiddleware>();
-            */
         }
 
         /// <summary>
@@ -386,7 +375,6 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopRequestLocalization(this IApplicationBuilder application)
         {
-            /*
             application.UseRequestLocalization(async options =>
             {
                 if (!DataSettingsManager.IsDatabaseInstalled())
@@ -407,7 +395,6 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                 if (cookieRequestCultureProvider is not null)
                     cookieRequestCultureProvider.CookieName = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.CultureCookie}";
             });
-            */
         }
 
         /// <summary>
@@ -416,14 +403,12 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopEndpoints(this IApplicationBuilder application)
         {
-            /*
             //Execute the endpoint selected by the routing middleware
             application.UseEndpoints(endpoints =>
             {
                 //register all routes
                 EngineContext.Current.Resolve<IRoutePublisher>().RegisterRoutes(endpoints);
             });
-            */
         }
 
         /// <summary>
@@ -432,7 +417,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopProxy(this IApplicationBuilder application)
         {
-            /*
+            
             var appSettings = EngineContext.Current.Resolve<AppSettings>();
 
             if (appSettings.Get<HostingConfig>().UseProxy)
@@ -466,7 +451,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                 //configure forwarding
                 application.UseForwardedHeaders(options);
             }
-            */
+           
         }
 
         /// <summary>
@@ -475,11 +460,10 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNopWebMarkupMin(this IApplicationBuilder application)
         {
-            /*
             //check whether database is installed
             if (!DataSettingsManager.IsDatabaseInstalled())
                 return;
-            */
+
             application.UseWebMarkupMin();
         }
     }
