@@ -1,2 +1,2 @@
-﻿Veyesys: un système de gestion de contenu vidéo.
+﻿Veyesys est un système de gestion de contenu vidéo.
 ===========
