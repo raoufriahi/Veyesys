@@ -11,13 +11,13 @@ namespace Veyesys.Data.Migrations
     {
         #region Fields
 
-        private readonly INopDataProvider _dataProvider;
+        private readonly IVeDataProvider _dataProvider;
 
         #endregion
 
         #region Ctor
 
-        public ForeignKeyConvention(INopDataProvider dataProvider)
+        public ForeignKeyConvention(IVeDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
         }

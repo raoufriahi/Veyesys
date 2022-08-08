@@ -20,7 +20,7 @@ namespace Veyesys.Data
         #region Fields
 
         private readonly IEventPublisher _eventPublisher;
-        private readonly INopDataProvider _dataProvider;
+        private readonly IVeDataProvider _dataProvider;
         private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
@@ -28,7 +28,7 @@ namespace Veyesys.Data
         #region Ctor
 
         public EntityRepository(IEventPublisher eventPublisher,
-            INopDataProvider dataProvider,
+            IVeDataProvider dataProvider,
             IStaticCacheManager staticCacheManager)
         {
             _eventPublisher = eventPublisher;

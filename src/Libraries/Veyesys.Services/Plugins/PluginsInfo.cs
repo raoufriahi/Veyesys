@@ -36,11 +36,11 @@ namespace Veyesys.Services.Plugins
         protected virtual async Task<IList<string>> GetObsoleteInstalledPluginNamesAsync()
         {
             //check whether file exists
-            var filePath = _fileProvider.MapPath(NopPluginDefaults.InstalledPluginsFilePath);
+            var filePath = _fileProvider.MapPath(VePluginDefaults.InstalledPluginsFilePath);
             if (!_fileProvider.FileExists(filePath))
             {
                 //if not, try to parse the file that was used in previous nopCommerce versions
-                filePath = _fileProvider.MapPath(NopPluginDefaults.ObsoleteInstalledPluginsFilePath);
+                filePath = _fileProvider.MapPath(VePluginDefaults.ObsoleteInstalledPluginsFilePath);
                 if (!_fileProvider.FileExists(filePath))
                     return new List<string>();
 
@@ -110,7 +110,7 @@ namespace Veyesys.Services.Plugins
         public virtual async Task SaveAsync()
         {
             //save the file
-            var filePath = _fileProvider.MapPath(NopPluginDefaults.PluginsInfoFilePath);
+            var filePath = _fileProvider.MapPath(VePluginDefaults.PluginsInfoFilePath);
             var text = JsonConvert.SerializeObject(this, Formatting.Indented);
             await _fileProvider.WriteAllTextAsync(filePath, text, Encoding.UTF8);
         }
@@ -121,7 +121,7 @@ namespace Veyesys.Services.Plugins
         public virtual void Save()
         {
             //save the file
-            var filePath = _fileProvider.MapPath(NopPluginDefaults.PluginsInfoFilePath);
+            var filePath = _fileProvider.MapPath(VePluginDefaults.PluginsInfoFilePath);
             var text = JsonConvert.SerializeObject(this, Formatting.Indented);
             _fileProvider.WriteAllText(filePath, text, Encoding.UTF8);
         }
@@ -136,7 +136,7 @@ namespace Veyesys.Services.Plugins
         public virtual async Task<bool> LoadPluginInfoAsync()
         {
             //check whether plugins info file exists
-            var filePath = _fileProvider.MapPath(NopPluginDefaults.PluginsInfoFilePath);
+            var filePath = _fileProvider.MapPath(VePluginDefaults.PluginsInfoFilePath);
             if (!_fileProvider.FileExists(filePath))
             {
                 //file doesn't exist, so try to get only installed plugin names from the obsolete file

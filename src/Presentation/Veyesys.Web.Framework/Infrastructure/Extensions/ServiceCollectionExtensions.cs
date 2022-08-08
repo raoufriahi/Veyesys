@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+ * Copyright (c) 2022-2023 Veyesys
+ *
+ * The computer program contained herein contains proprietary
+ * information which is the property of Veyesys.
+ * The program may be used and/or copied only with the written
+ * permission of Veyesys or in accordance with the
+ * terms and conditions stipulated in the agreement/contract under
+ * which the programs have been supplied.
+ */
+
+using System;
 using System.Linq;
 using System.Net;
 using Azure.Identity;
@@ -21,17 +32,17 @@ using Veyesys.Core.Domain.Common;
 using Veyesys.Core.Infrastructure;
 using Veyesys.Core.Security;
 using Veyesys.Data;
-//using Veyesys.Services.Authentication;
-/*using Veyesys.Services.Authentication.External;
 using Veyesys.Services.Common;
-using Veyesys.Services.Security;
+using Veyesys.Web.Framework.Security.Captcha;
 using Veyesys.Web.Framework.Configuration;
+using Veyesys.Services.Authentication;
+using Veyesys.Services.Authentication.External;
+using Veyesys.Web.Framework.Themes;
+using Veyesys.Services.Security;
+using Veyesys.Web.Framework.Mvc.Routing;
 using Veyesys.Web.Framework.Mvc.ModelBinding;
 using Veyesys.Web.Framework.Mvc.ModelBinding.Binders;
-using Veyesys.Web.Framework.Mvc.Routing;
-using Veyesys.Web.Framework.Security.Captcha;
-using Veyesys.Web.Framework.Themes;
-using Veyesys.Web.Framework.Validators;*/
+using Veyesys.Web.Framework.Validators;
 using StackExchange.Profiling.Storage;
 using WebMarkupMin.AspNetCore6;
 using WebMarkupMin.NUglify;
@@ -56,7 +67,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
 
             //create default file provider
-            CommonHelper.DefaultFileProvider = new FileProvider(builder.Environment);
+            CommonHelper.DefaultFileProvider = new VeFileProvider(builder.Environment);
 
             //add accessor to HttpContext
             services.AddHttpContextAccessor();
@@ -108,7 +119,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             //override cookie name
             services.AddAntiforgery(options =>
             {
-                options.Cookie.Name = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.AntiforgeryCookie}";
+                options.Cookie.Name = $"{VeCookieDefaults.Prefix}{VeCookieDefaults.AntiforgeryCookie}";
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
             });
            
@@ -122,7 +133,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         {
             services.AddSession(options =>
             {
-                options.Cookie.Name = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.SessionCookie}";
+                options.Cookie.Name = $"{VeCookieDefaults.Prefix}{VeCookieDefaults.SessionCookie}";
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
             });
@@ -141,9 +152,9 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             //themes support
             services.Configure<RazorViewEngineOptions>(options =>
             {
-               //raouf options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander());
+                options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander());
             });
-           
+
         }
 
         /// <summary>
@@ -194,7 +205,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             {
                 var blobServiceClient = new BlobServiceClient(appSettings.Get<AzureBlobConfig>().ConnectionString);
                 var blobContainerClient = blobServiceClient.GetBlobContainerClient(appSettings.Get<AzureBlobConfig>().DataProtectionKeysContainerName);
-                var blobClient = blobContainerClient.GetBlobClient(DataProtectionDefaults.AzureDataProtectionKeyFile);
+                var blobClient = blobContainerClient.GetBlobClient(VeDataProtectionDefaults.AzureDataProtectionKeyFile);
 
                 var dataProtectionBuilder = services.AddDataProtection().PersistKeysToAzureBlobStorage(blobClient);
 
@@ -209,7 +220,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             }
             else
             {
-                var dataProtectionKeysPath = CommonHelper.DefaultFileProvider.MapPath(DataProtectionDefaults.DataProtectionKeysPath);
+                var dataProtectionKeysPath = CommonHelper.DefaultFileProvider.MapPath(VeDataProtectionDefaults.DataProtectionKeysPath);
                 var dataProtectionKeysFolder = new System.IO.DirectoryInfo(dataProtectionKeysPath);
 
                 //configure the data protection system to persist keys to the specified directory
@@ -224,43 +235,43 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="services">Collection of service descriptors</param>
         public static void AddNopAuthentication(this IServiceCollection services)
         {
-            ////set default authentication schemes
-            // var authenticationBuilder = services.AddAuthentication(options =>
-            //{
-            //    options.DefaultChallengeScheme = NopAuthenticationDefaults.AuthenticationScheme;
-            //    options.DefaultScheme = NopAuthenticationDefaults.AuthenticationScheme;
-            //    options.DefaultSignInScheme = NopAuthenticationDefaults.ExternalAuthenticationScheme;
-            //});
+            //set default authentication schemes
+            var authenticationBuilder = services.AddAuthentication(options =>
+           {
+               options.DefaultChallengeScheme = VeAuthenticationDefaults.AuthenticationScheme;
+               options.DefaultScheme = VeAuthenticationDefaults.AuthenticationScheme;
+               options.DefaultSignInScheme = VeAuthenticationDefaults.ExternalAuthenticationScheme;
+           });
 
-            ////add main cookie authentication
-            //authenticationBuilder.AddCookie(NopAuthenticationDefaults.AuthenticationScheme, options =>
-            //{
-            //    options.Cookie.Name = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.AuthenticationCookie}";
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-            //    options.LoginPath = NopAuthenticationDefaults.LoginPath;
-            //    options.AccessDeniedPath = NopAuthenticationDefaults.AccessDeniedPath;
-            //});
+            //add main cookie authentication
+            authenticationBuilder.AddCookie(VeAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.Cookie.Name = $"{VeCookieDefaults.Prefix}{VeCookieDefaults.AuthenticationCookie}";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.LoginPath = VeAuthenticationDefaults.LoginPath;
+                options.AccessDeniedPath = VeAuthenticationDefaults.AccessDeniedPath;
+            });
 
-            ////add external authentication
-            //authenticationBuilder.AddCookie(NopAuthenticationDefaults.ExternalAuthenticationScheme, options =>
-            //{
-            //    options.Cookie.Name = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.ExternalAuthenticationCookie}";
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-            //    options.LoginPath = NopAuthenticationDefaults.LoginPath;
-            //    options.AccessDeniedPath = NopAuthenticationDefaults.AccessDeniedPath;
-            //});
+            //add external authentication
+            authenticationBuilder.AddCookie(VeAuthenticationDefaults.ExternalAuthenticationScheme, options =>
+            {
+                options.Cookie.Name = $"{VeCookieDefaults.Prefix}{VeCookieDefaults.ExternalAuthenticationCookie}";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.LoginPath = VeAuthenticationDefaults.LoginPath;
+                options.AccessDeniedPath = VeAuthenticationDefaults.AccessDeniedPath;
+            });
 
-            ////register and configure external authentication plugins now
-            //var typeFinder = Singleton<ITypeFinder>.Instance;
-            //var externalAuthConfigurations = typeFinder.FindClassesOfType<IExternalAuthenticationRegistrar>();
-            //var externalAuthInstances = externalAuthConfigurations
-            //    .Select(x => (IExternalAuthenticationRegistrar)Activator.CreateInstance(x));
+            //register and configure external authentication plugins now
+            var typeFinder = Singleton<ITypeFinder>.Instance;
+            var externalAuthConfigurations = typeFinder.FindClassesOfType<IExternalAuthenticationRegistrar>();
+            var externalAuthInstances = externalAuthConfigurations
+                .Select(x => (IExternalAuthenticationRegistrar)Activator.CreateInstance(x));
 
-            //foreach (var instance in externalAuthInstances)
-            //    instance.Configure(authenticationBuilder);
-            
+            foreach (var instance in externalAuthInstances)
+                instance.Configure(authenticationBuilder);
+
         }
 
         /// <summary>
@@ -270,8 +281,64 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <returns>A builder for configuring MVC services</returns>
         public static IMvcBuilder AddNopMvc(this IServiceCollection services)
         {
-           
-            return null;
+
+            //add basic MVC feature
+            var mvcBuilder = services.AddControllersWithViews();
+
+            mvcBuilder.AddRazorRuntimeCompilation();
+
+            var appSettings = Singleton<AppSettings>.Instance;
+            if (appSettings.Get<CommonConfig>().UseSessionStateTempDataProvider)
+            {
+                //use session-based temp data provider
+                mvcBuilder.AddSessionStateTempDataProvider();
+            }
+            else
+            {
+                //use cookie-based temp data provider
+                mvcBuilder.AddCookieTempDataProvider(options =>
+                {
+                    options.Cookie.Name = $"{VeCookieDefaults.Prefix}{VeCookieDefaults.TempDataCookie}";
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                });
+            }
+
+            services.AddRazorPages();
+
+            //MVC now serializes JSON with camel case names by default, use this code to avoid it
+            mvcBuilder.AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+            //set some options
+            mvcBuilder.AddMvcOptions(options =>
+            {
+                //we'll use this until https://github.com/dotnet/aspnetcore/issues/6566 is solved 
+                options.ModelBinderProviders.Insert(0, new InvariantNumberModelBinderProvider());
+                //add custom display metadata provider 
+                options.ModelMetadataDetailsProviders.Add(new VeMetadataProvider());
+
+                //in .NET model binding for a non-nullable property may fail with an error message "The value '' is invalid"
+                //here we set the locale name as the message, we'll replace it with the actual one later when not-null validation failed
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => VeValidationDefaults.NotNullValidationLocaleName);
+            });
+
+            //add fluent validation
+            mvcBuilder.AddFluentValidation(configuration =>
+            {
+                //register all available validators from Nop assemblies
+                var assemblies = mvcBuilder.PartManager.ApplicationParts
+                    .OfType<AssemblyPart>()
+                    .Where(part => part.Name.StartsWith("Nop", StringComparison.InvariantCultureIgnoreCase))
+                    .Select(part => part.Assembly);
+                configuration.RegisterValidatorsFromAssemblies(assemblies);
+
+                //implicit/automatic validation of child properties
+                configuration.ImplicitlyValidateChildProperties = true;
+            });
+
+            //register controllers as services, it'll allow to override them
+            mvcBuilder.AddControllersAsServices();
+
+            return mvcBuilder;
         }
 
         /// <summary>
@@ -280,6 +347,8 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="services">Collection of service descriptors</param>
         public static void AddNopRedirectResultExecutor(this IServiceCollection services)
         {
+            //we use custom redirect executor as a workaround to allow using non-ASCII characters in redirect URLs
+            services.AddScoped<IActionResultExecutor<RedirectResult>, VeRedirectResultExecutor>();
         }
 
         /// <summary>
@@ -288,7 +357,22 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="services">Collection of service descriptors</param>
         public static void AddNopMiniProfiler(this IServiceCollection services)
         {
-           
+            //whether database is already installed
+            if (!DataSettingsManager.IsDatabaseInstalled())
+                return;
+
+            var appSettings = Singleton<AppSettings>.Instance;
+            if (appSettings.Get<CommonConfig>().MiniProfilerEnabled)
+            {
+                services.AddMiniProfiler(miniProfilerOptions =>
+                {
+                    //use memory cache provider for storing each result
+                    ((MemoryCacheStorage)miniProfilerOptions.Storage).CacheDuration = TimeSpan.FromMinutes(appSettings.Get<CacheConfig>().DefaultCacheTime);
+
+                    //determine who can access the MiniProfiler results
+                    miniProfilerOptions.ResultsAuthorize = request => EngineContext.Current.Resolve<IPermissionService>().AuthorizeAsync(StandardPermissionProvider.AccessProfiling).Result;
+                });
+            }
         }
 
         /// <summary>
@@ -297,7 +381,30 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="services">Collection of service descriptors</param>
         public static void AddNopWebMarkupMin(this IServiceCollection services)
         {
+            //check whether database is installed
+            if (!DataSettingsManager.IsDatabaseInstalled())
+                return;
 
+            services
+                .AddWebMarkupMin(options =>
+                {
+                    options.AllowMinificationInDevelopmentEnvironment = true;
+                    options.AllowCompressionInDevelopmentEnvironment = true;
+                    options.DisableMinification = !EngineContext.Current.Resolve<CommonSettings>().EnableHtmlMinification;
+                    options.DisableCompression = true;
+                    options.DisablePoweredByHttpHeaders = true;
+                })
+                .AddHtmlMinification(options =>
+                {
+                    options.CssMinifierFactory = new NUglifyCssMinifierFactory();
+                    options.JsMinifierFactory = new NUglifyJsMinifierFactory();
+                })
+                .AddXmlMinification(options =>
+                {
+                    var settings = options.MinificationSettings;
+                    settings.RenderEmptyTagsWithSpace = true;
+                    settings.CollapseTagsWithoutContent = true;
+                });
         }
 
         /// <summary>
@@ -306,7 +413,24 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="services">Collection of service descriptors</param>
         public static void AddNopWebOptimizer(this IServiceCollection services)
         {
-           
+            var appSettings = Singleton<AppSettings>.Instance;
+            var cssBundling = appSettings.Get<WebOptimizerConfig>().EnableCssBundling;
+            var jsBundling = appSettings.Get<WebOptimizerConfig>().EnableJavaScriptBundling;
+
+            //add minification & bundling
+            var cssSettings = new CssBundlingSettings
+            {
+                FingerprintUrls = false,
+                Minify = cssBundling
+            };
+
+            var codeSettings = new CodeBundlingSettings
+            {
+                Minify = jsBundling,
+                AdjustRelativePaths = false //disable this feature because it breaks function names that have "Url(" at the end
+            };
+
+            services.AddWebOptimizer(null, cssSettings, codeSettings);
         }
 
         /// <summary>
@@ -314,8 +438,18 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         public static void AddNopHttpClients(this IServiceCollection services)
-        {
+        {            
+            //default client
+            services.AddHttpClient(VeHttpDefaults.DefaultHttpClient).WithProxy();
 
+            //client to request current store
+            services.AddHttpClient<StoreHttpClient>();
+
+            //client to request Veyesys official site
+            services.AddHttpClient<VeHttpClient>().WithProxy();
+
+            //client to request reCAPTCHA service
+            services.AddHttpClient<CaptchaHttpClient>().WithProxy();
         }
     }
 }

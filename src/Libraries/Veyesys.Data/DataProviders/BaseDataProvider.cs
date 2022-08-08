@@ -160,7 +160,7 @@ namespace Veyesys.Data.DataProviders
         public virtual void InitializeDatabase()
         {
             var migrationManager = EngineContext.Current.Resolve<IMigrationManager>();
-            migrationManager.ApplyUpMigrations(typeof(NopDbStartup).Assembly);
+            migrationManager.ApplyUpMigrations(typeof(VeDbStartup).Assembly);
         }
 
         /// <summary>

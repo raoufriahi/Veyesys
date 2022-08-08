@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+ * Copyright (c) 2022-2023 Veyesys
+ *
+ * The computer program contained herein contains proprietary
+ * information which is the property of Veyesys.
+ * The program may be used and/or copied only with the written
+ * permission of Veyesys or in accordance with the
+ * terms and conditions stipulated in the agreement/contract under
+ * which the programs have been supplied.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -370,13 +381,13 @@ namespace Veyesys.Core
         {
             get
             {
-                if (_httpContextAccessor.HttpContext.Items[NopHttpDefaults.IsPostBeingDoneRequestItem] == null)
+                if (_httpContextAccessor.HttpContext.Items[VeHttpDefaults.IsPostBeingDoneRequestItem] == null)
                     return false;
 
-                return Convert.ToBoolean(_httpContextAccessor.HttpContext.Items[NopHttpDefaults.IsPostBeingDoneRequestItem]);
+                return Convert.ToBoolean(_httpContextAccessor.HttpContext.Items[VeHttpDefaults.IsPostBeingDoneRequestItem]);
             }
 
-            set => _httpContextAccessor.HttpContext.Items[NopHttpDefaults.IsPostBeingDoneRequestItem] = value;
+            set => _httpContextAccessor.HttpContext.Items[VeHttpDefaults.IsPostBeingDoneRequestItem] = value;
         }
 
         /// <summary>

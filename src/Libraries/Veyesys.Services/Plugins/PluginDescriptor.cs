@@ -111,7 +111,7 @@ namespace Veyesys.Services.Plugins
             if (OriginalAssemblyFile == null)
                 throw new Exception($"Cannot load original assembly path for {SystemName} plugin.");
 
-            var filePath = fileProvider.Combine(fileProvider.GetDirectoryName(OriginalAssemblyFile), NopPluginDefaults.DescriptionFileName);
+            var filePath = fileProvider.Combine(fileProvider.GetDirectoryName(OriginalAssemblyFile), VePluginDefaults.DescriptionFileName);
             if (!fileProvider.FileExists(filePath))
                 throw new Exception($"Description file for {SystemName} plugin does not exist. {filePath}");
 

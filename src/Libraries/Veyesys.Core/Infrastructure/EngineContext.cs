@@ -1,4 +1,15 @@
-﻿using System.Runtime.CompilerServices;
+﻿/*
+ * Copyright (c) 2022-2023 Veyesys
+ *
+ * The computer program contained herein contains proprietary
+ * information which is the property of Veyesys.
+ * The program may be used and/or copied only with the written
+ * permission of Veyesys or in accordance with the
+ * terms and conditions stipulated in the agreement/contract under
+ * which the programs have been supplied.
+ */
+
+using System.Runtime.CompilerServices;
 
 namespace Veyesys.Core.Infrastructure
 {
@@ -15,8 +26,8 @@ namespace Veyesys.Core.Infrastructure
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static IEngine Create()
         {
-            //create NopEngine as engine
-            return Singleton<IEngine>.Instance ?? (Singleton<IEngine>.Instance = new Engine());
+            //create Engine as engine
+            return Singleton<IEngine>.Instance ?? (Singleton<IEngine>.Instance = new VeEngine());
         }
 
         /// <summary>

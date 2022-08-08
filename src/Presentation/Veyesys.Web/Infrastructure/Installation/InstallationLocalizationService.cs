@@ -86,7 +86,7 @@ namespace Veyesys.Web.Infrastructure.Installation
             var httpContext = _httpContextAccessor.HttpContext;
 
             //try to get cookie
-            var cookieName = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.InstallationLanguageCookie}";
+            var cookieName = $"{VeCookieDefaults.Prefix}{VeCookieDefaults.InstallationLanguageCookie}";
             httpContext.Request.Cookies.TryGetValue(cookieName, out var cookieLanguageCode);
 
             //ensure it's available (it could be delete since the previous installation)
@@ -136,7 +136,7 @@ namespace Veyesys.Web.Infrastructure.Installation
                 HttpOnly = true,
                 Secure = _webHelper.IsCurrentConnectionSecured()
             };
-            var cookieName = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.InstallationLanguageCookie}";
+            var cookieName = $"{VeCookieDefaults.Prefix}{VeCookieDefaults.InstallationLanguageCookie}";
             httpContext.Response.Cookies.Delete(cookieName);
             httpContext.Response.Cookies.Append(cookieName, languageCode, cookieOptions);
         }
@@ -205,13 +205,13 @@ namespace Veyesys.Web.Infrastructure.Installation
                     var resValueNode = resNode.SelectSingleNode("Value");
 
                     if (resNameAttribute == null)
-                        throw new VeyesysException("All installation resources must have an attribute Name=\"Value\".");
+                        throw new VeException("All installation resources must have an attribute Name=\"Value\".");
                     var resourceName = resNameAttribute.Value.Trim();
                     if (string.IsNullOrEmpty(resourceName))
-                        throw new VeyesysException("All installation resource attributes 'Name' must have a value.'");
+                        throw new VeException("All installation resource attributes 'Name' must have a value.'");
 
                     if (resValueNode == null)
-                        throw new VeyesysException("All installation resources must have an element \"Value\".");
+                        throw new VeException("All installation resources must have an element \"Value\".");
                     var resourceValue = resValueNode.InnerText.Trim();
 
                     language.Resources.Add(new InstallationLocaleResource

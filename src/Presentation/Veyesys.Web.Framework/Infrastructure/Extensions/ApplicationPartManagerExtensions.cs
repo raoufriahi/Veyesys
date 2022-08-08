@@ -50,7 +50,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             }
 
             //get all libraries from refs directory
-            var refsPathName = _fileProvider.Combine(Environment.CurrentDirectory, NopPluginDefaults.RefsPathName);
+            var refsPathName = _fileProvider.Combine(Environment.CurrentDirectory, VePluginDefaults.RefsPathName);
             if (_fileProvider.DirectoryExists(refsPathName))
             {
                 _baseAppLibraries.AddRange(_fileProvider.GetFiles(refsPathName, "*.dll")
@@ -215,7 +215,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             {
                 //suppress exceptions for "locked" assemblies, try load them from another directory
                 if (!pluginConfig.CopyLockedPluginAssembilesToSubdirectoriesOnStartup ||
-                    !shadowCopyDirectory.Equals(fileProvider.MapPath(NopPluginDefaults.ShadowCopyPath)))
+                    !shadowCopyDirectory.Equals(fileProvider.MapPath(VePluginDefaults.ShadowCopyPath)))
                 {
                     throw;
                 }
@@ -224,7 +224,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             {
                 //suppress exceptions for "locked" assemblies, try load them from another directory
                 if (!pluginConfig.CopyLockedPluginAssembilesToSubdirectoriesOnStartup ||
-                    !shadowCopyDirectory.Equals(fileProvider.MapPath(NopPluginDefaults.ShadowCopyPath)))
+                    !shadowCopyDirectory.Equals(fileProvider.MapPath(VePluginDefaults.ShadowCopyPath)))
                 {
                     throw;
                 }
@@ -234,8 +234,8 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                 return shadowCopiedAssembly;
 
             //shadow copy assembly wasn't loaded for some reason, so trying to load again from the reserve directory
-            var reserveDirectory = fileProvider.Combine(fileProvider.MapPath(NopPluginDefaults.ShadowCopyPath),
-                $"{NopPluginDefaults.ReserveShadowCopyPathName}{DateTime.Now.ToFileTimeUtc()}");
+            var reserveDirectory = fileProvider.Combine(fileProvider.MapPath(VePluginDefaults.ShadowCopyPath),
+                $"{VePluginDefaults.ReserveShadowCopyPathName}{DateTime.Now.ToFileTimeUtc()}");
 
             return PerformFileDeploy(applicationPartManager, assemblyFile, reserveDirectory, pluginConfig, fileProvider);
         }
@@ -253,7 +253,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             var result = new List<(string DescriptionFile, PluginDescriptor PluginDescriptor)>();
 
             //try to find description files in the plugin directory
-            var files = _fileProvider.GetFiles(directoryName, NopPluginDefaults.DescriptionFileName, false);
+            var files = _fileProvider.GetFiles(directoryName, VePluginDefaults.DescriptionFileName, false);
 
             //populate result list
             foreach (var descriptionFile in files)
@@ -342,7 +342,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                 return false;
 
             //directory is directly in plugins directory
-            if (!_fileProvider.GetDirectoryNameOnly(parent).Equals(NopPluginDefaults.PathName, StringComparison.InvariantCultureIgnoreCase))
+            if (!_fileProvider.GetDirectoryNameOnly(parent).Equals(VePluginDefaults.PathName, StringComparison.InvariantCultureIgnoreCase))
                 return false;
 
             return true;
@@ -377,10 +377,10 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                 try
                 {
                     //ensure plugins directory and directory for shadow copies are created
-                    var pluginsDirectory = _fileProvider.MapPath(NopPluginDefaults.Path);
+                    var pluginsDirectory = _fileProvider.MapPath(VePluginDefaults.Path);
                     _fileProvider.CreateDirectory(pluginsDirectory);
 
-                    var shadowCopyDirectory = _fileProvider.MapPath(NopPluginDefaults.ShadowCopyPath);
+                    var shadowCopyDirectory = _fileProvider.MapPath(VePluginDefaults.ShadowCopyPath);
                     _fileProvider.CreateDirectory(shadowCopyDirectory);
 
                     //get list of all files in bin directory
@@ -413,7 +413,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
 
                         //delete all reserve directories
                         var reserveDirectories = _fileProvider
-                            .GetDirectories(shadowCopyDirectory, NopPluginDefaults.ReserveShadowCopyPathNamePattern);
+                            .GetDirectories(shadowCopyDirectory, VePluginDefaults.ReserveShadowCopyPathNamePattern);
                         foreach (var directory in reserveDirectories)
                         {
                             try
@@ -434,7 +434,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                         var pluginDescriptor = item.PluginDescriptor;
 
                         //ensure that plugin is compatible with the current version
-                        if (!pluginDescriptor.SupportedVersions.Contains(VeyesysVersion.CURRENT_VERSION, StringComparer.InvariantCultureIgnoreCase))
+                        if (!pluginDescriptor.SupportedVersions.Contains(VeVersion.CURRENT_VERSION, StringComparer.InvariantCultureIgnoreCase))
                         {
                             incompatiblePlugins.Add(pluginDescriptor.SystemName);
                             continue;

@@ -13,7 +13,7 @@ namespace Veyesys.Data.Migrations
 
         protected static long GetVersion(string dateTime)
         {
-            return DateTime.ParseExact(dateTime, NopMigrationDefaults.DateFormats, CultureInfo.InvariantCulture).Ticks;
+            return DateTime.ParseExact(dateTime, VeMigrationDefaults.DateFormats, CultureInfo.InvariantCulture).Ticks;
         }
 
         protected static long GetVersion(string dateTime, UpdateMigrationType migrationType)
@@ -23,7 +23,7 @@ namespace Veyesys.Data.Migrations
 
         protected static string GetDescription(string nopVersion, UpdateMigrationType migrationType)
         {
-            return string.Format(NopMigrationDefaults.UpdateMigrationDescription, nopVersion, migrationType.ToString());
+            return string.Format(VeMigrationDefaults.UpdateMigrationDescription, nopVersion, migrationType.ToString());
         }
 
         #endregion

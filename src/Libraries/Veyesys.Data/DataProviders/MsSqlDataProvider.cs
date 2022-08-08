@@ -18,7 +18,7 @@ namespace Veyesys.Data.DataProviders
     /// <summary>
     /// Represents the MS SQL Server data provider
     /// </summary>
-    public partial class MsSqlNopDataProvider : BaseDataProvider, INopDataProvider
+    public partial class MsSqlNopDataProvider : BaseDataProvider, IVeDataProvider
     {
         #region Fields
 
@@ -258,7 +258,7 @@ namespace Veyesys.Data.DataProviders
         /// </summary>
         /// <param name="nopConnectionString">Connection string info</param>
         /// <returns>Connection string</returns>
-        public virtual string BuildConnectionString(INopConnectionStringInfo nopConnectionString)
+        public virtual string BuildConnectionString(IVeConnectionStringInfo nopConnectionString)
         {
             if (nopConnectionString is null)
                 throw new ArgumentNullException(nameof(nopConnectionString));

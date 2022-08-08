@@ -39,7 +39,7 @@ namespace Veyesys.Services.Installation
             //whether database is installed
             if (!DataSettingsManager.IsDatabaseInstalled())
             {
-                var installUrl = $"{webHelper.GetStoreLocation()}{NopInstallationDefaults.InstallPath}";
+                var installUrl = $"{webHelper.GetStoreLocation()}{VeInstallationDefaults.InstallPath}";
                 if (!webHelper.GetThisPageUrl(false).StartsWith(installUrl, StringComparison.InvariantCultureIgnoreCase))
                 {
                     //redirect

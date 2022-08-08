@@ -12,7 +12,7 @@ namespace Veyesys.Data.Migrations
     {
         #region Ctor
 
-        public VeyesysConventionSet(INopDataProvider dataProvider)
+        public VeyesysConventionSet(IVeDataProvider dataProvider)
         {
             if (dataProvider is null)
                 throw new ArgumentNullException(nameof(dataProvider));
@@ -27,13 +27,13 @@ namespace Veyesys.Data.Migrations
 
             IndexConventions = new List<IIndexConvention>() 
             {
-                new NopIndexConvention(dataProvider),
+                new VeIndexConvention(dataProvider),
                 defaultConventionSet.SchemaConvention
             };
 
             ColumnsConventions = new List<IColumnsConvention>() 
             {
-                new NopColumnsConvention(),
+                new VeColumnsConvention(),
                 new DefaultPrimaryKeyNameConvention()
             };
             

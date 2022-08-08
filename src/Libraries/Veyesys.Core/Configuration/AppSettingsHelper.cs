@@ -42,7 +42,7 @@ namespace Veyesys.Core.Configuration
             Singleton<AppSettings>.Instance = appSettings;
 
             //create file if not exists
-            var filePath = fileProvider.MapPath(NopConfigurationDefaults.AppSettingsFilePath);
+            var filePath = fileProvider.MapPath(VeConfigurationDefaults.AppSettingsFilePath);
             var fileExists = fileProvider.FileExists(filePath);
             fileProvider.CreateFile(filePath);
 

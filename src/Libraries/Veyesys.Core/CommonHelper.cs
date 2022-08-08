@@ -47,7 +47,7 @@ namespace Veyesys.Core
 
             if (!IsValidEmail(output))
             {
-                throw new VeyesysException("Email is not valid.");
+                throw new VeException("Email is not valid.");
             }
 
             return output;
@@ -199,9 +199,9 @@ namespace Veyesys.Core
             var instanceType = instance.GetType();
             var pi = instanceType.GetProperty(propertyName);
             if (pi == null)
-                throw new VeyesysException("No property '{0}' found on the instance of type '{1}'.", propertyName, instanceType);
+                throw new VeException("No property '{0}' found on the instance of type '{1}'.", propertyName, instanceType);
             if (!pi.CanWrite)
-                throw new VeyesysException("The property '{0}' on the instance of type '{1}' does not have a setter.", propertyName, instanceType);
+                throw new VeException("The property '{0}' on the instance of type '{1}' does not have a setter.", propertyName, instanceType);
             if (value != null && !value.GetType().IsAssignableFrom(pi.PropertyType))
                 value = To(value, pi.PropertyType);
             pi.SetValue(instance, value, Array.Empty<object>());

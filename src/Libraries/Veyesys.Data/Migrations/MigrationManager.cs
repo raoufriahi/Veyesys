@@ -122,7 +122,7 @@ namespace Veyesys.Data.Migrations
 
 #if DEBUG
                 if (!string.IsNullOrEmpty(migrationInfo.Description) &&
-                    migrationInfo.Description.StartsWith(string.Format(NopMigrationDefaults.UpdateMigrationDescriptionPrefix, VeyesysVersion.FULL_VERSION)))
+                    migrationInfo.Description.StartsWith(string.Format(VeMigrationDefaults.UpdateMigrationDescriptionPrefix, VeVersion.FULL_VERSION)))
                     continue;
 #endif
                 _versionLoader.Value

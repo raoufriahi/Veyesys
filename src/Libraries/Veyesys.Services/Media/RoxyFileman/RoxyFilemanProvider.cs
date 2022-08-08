@@ -45,15 +45,15 @@ namespace Veyesys.Services.Media.RoxyFileman
         /// <returns>The file information. Caller must check Exists property.</returns>
         public IFileInfo GetFileInfo(string subpath)
         {
-        //    var pictureService = EngineContext.Current.Resolve<IPictureService>();
+            var pictureService = EngineContext.Current.Resolve<IPictureService>();
 
-        //    if (_physicalFileProvider.GetFileInfo(subpath).Exists || !pictureService.IsStoreInDbAsync().Result)
-        //        return _physicalFileProvider.GetFileInfo(subpath);
+            if (_physicalFileProvider.GetFileInfo(subpath).Exists || !pictureService.IsStoreInDbAsync().Result)
+                return _physicalFileProvider.GetFileInfo(subpath);
 
-        //    var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
-        //    var roxyFilemanService = EngineContext.Current.Resolve<IRoxyFilemanService>();
-        //    var virtualPath = fileProvider?.GetVirtualPath(fileProvider.GetDirectoryName(_physicalFileProvider.GetFileInfo(subpath).PhysicalPath));
-        //    roxyFilemanService.FlushImagesOnDiskAsync(virtualPath).Wait();
+            var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
+            var roxyFilemanService = EngineContext.Current.Resolve<IRoxyFilemanService>();
+            var virtualPath = fileProvider?.GetVirtualPath(fileProvider.GetDirectoryName(_physicalFileProvider.GetFileInfo(subpath).PhysicalPath));
+            roxyFilemanService.FlushImagesOnDiskAsync(virtualPath).Wait();
 
             return _physicalFileProvider.GetFileInfo(subpath);
         }

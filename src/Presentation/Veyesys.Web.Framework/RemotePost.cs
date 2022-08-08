@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Veyesys.Core;
 
-namespace Nop.Web.Framework
+namespace Veyesys.Web.Framework
 {
     /// <summary>
     /// Represents a RemotePost helper class

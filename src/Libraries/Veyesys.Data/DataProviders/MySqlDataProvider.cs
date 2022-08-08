@@ -17,7 +17,7 @@ using Veyesys.Data.Migrations;
 
 namespace Veyesys.Data.DataProviders
 {
-    public class MySqlNopDataProvider : BaseDataProvider, INopDataProvider
+    public class MySqlNopDataProvider : BaseDataProvider, IVeDataProvider
     {
         #region Fields
 
@@ -260,13 +260,13 @@ namespace Veyesys.Data.DataProviders
         /// </summary>
         /// <param name="nopConnectionString">Connection string info</param>
         /// <returns>Connection string</returns>
-        public virtual string BuildConnectionString(INopConnectionStringInfo nopConnectionString)
+        public virtual string BuildConnectionString(IVeConnectionStringInfo nopConnectionString)
         {
             if (nopConnectionString is null)
                 throw new ArgumentNullException(nameof(nopConnectionString));
 
             if (nopConnectionString.IntegratedSecurity)
-                throw new VeyesysException("Data provider supports connection only with login and password");
+                throw new VeException("Data provider supports connection only with login and password");
 
             var builder = new MySqlConnectionStringBuilder
             {

@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+ * Copyright (c) 2022-2023 Veyesys
+ *
+ * The computer program contained herein contains proprietary
+ * information which is the property of Veyesys.
+ * The program may be used and/or copied only with the written
+ * permission of Veyesys or in accordance with the
+ * terms and conditions stipulated in the agreement/contract under
+ * which the programs have been supplied.
+ */
+
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -14,6 +25,8 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
+using WebMarkupMin.AspNetCore6;
+using WebOptimizer;
 using Veyesys.Core.Domain.Common;
 using Veyesys.Services.Localization;
 using Veyesys.Core.Http;
@@ -30,8 +43,6 @@ using Veyesys.Core.Configuration;
 using Veyesys.Core.Infrastructure;
 using Veyesys.Data;
 using Veyesys.Web.Framework.Globalization;
-using WebMarkupMin.AspNetCore6;
-using WebOptimizer;
 using Veyesys.Services.Logging;
 
 namespace Veyesys.Web.Framework.Infrastructure.Extensions
@@ -83,7 +94,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Add exception handling
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopExceptionHandler(this IApplicationBuilder application)
+        public static void UseVeExceptionHandler(this IApplicationBuilder application)
         {
            var appSettings = EngineContext.Current.Resolve<AppSettings>();
             var webHostEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
@@ -135,7 +146,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UsePageNotFound(this IApplicationBuilder application)
         {
-           
+
             application.UseStatusCodePages(async context =>
             {
                 //handle 404 Not Found
@@ -204,7 +215,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Configure middleware for dynamically compressing HTTP responses
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopResponseCompression(this IApplicationBuilder application)
+        public static void UseVeResponseCompression(this IApplicationBuilder application)
         {
             if (!DataSettingsManager.IsDatabaseInstalled())
                 return;
@@ -218,7 +229,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Adds WebOptimizer to the <see cref="IApplicationBuilder"/> request execution pipeline
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopWebOptimizer(this IApplicationBuilder application)
+        public static void UseVeWebOptimizer(this IApplicationBuilder application)
         {
             var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
             var webHostEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
@@ -242,7 +253,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Configure static file serving
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopStaticFiles(this IApplicationBuilder application)
+        public static void UseVeStaticFiles(this IApplicationBuilder application)
         {
             
             var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
@@ -300,7 +311,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
 
             application.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(fileProvider.GetAbsolutePath(NopCommonDefaults.DbBackupsPath)),
+                FileProvider = new PhysicalFileProvider(fileProvider.GetAbsolutePath(VeCommonDefaults.DbBackupsPath)),
                 RequestPath = new PathString("/db_backups"),
                 ContentTypeProvider = provider
             });
@@ -319,8 +330,8 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             {
                 application.UseStaticFiles(new StaticFileOptions
                 {
-                    FileProvider = new RoxyFilemanProvider(fileProvider.GetAbsolutePath(NopRoxyFilemanDefaults.DefaultRootDirectory.TrimStart('/').Split('/'))),
-                    RequestPath = new PathString(NopRoxyFilemanDefaults.DefaultRootDirectory),
+                    FileProvider = new RoxyFilemanProvider(fileProvider.GetAbsolutePath(VeRoxyFilemanDefaults.DefaultRootDirectory.TrimStart('/').Split('/'))),
+                    RequestPath = new PathString(VeRoxyFilemanDefaults.DefaultRootDirectory),
                     OnPrepareResponse = staticFileResponse
                 });
             }
@@ -359,9 +370,8 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Adds the authentication middleware, which enables authentication capabilities.
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopAuthentication(this IApplicationBuilder application)
-        {
-            
+        public static void UseVeAuthentication(this IApplicationBuilder application)
+        { 
             //check whether database is installed
             if (!DataSettingsManager.IsDatabaseInstalled())
                 return;
@@ -373,7 +383,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Configure the request localization feature
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopRequestLocalization(this IApplicationBuilder application)
+        public static void UseVeRequestLocalization(this IApplicationBuilder application)
         {
             application.UseRequestLocalization(async options =>
             {
@@ -390,10 +400,10 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
                 options.ApplyCurrentCultureToResponseHeaders = true;
 
                 //configure culture providers
-                options.AddInitialRequestCultureProvider(new NopSeoUrlCultureProvider());
+                options.AddInitialRequestCultureProvider(new VeSeoUrlCultureProvider());
                 var cookieRequestCultureProvider = options.RequestCultureProviders.OfType<CookieRequestCultureProvider>().FirstOrDefault();
                 if (cookieRequestCultureProvider is not null)
-                    cookieRequestCultureProvider.CookieName = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.CultureCookie}";
+                    cookieRequestCultureProvider.CookieName = $"{VeCookieDefaults.Prefix}{VeCookieDefaults.CultureCookie}";
             });
         }
 
@@ -401,7 +411,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Configure Endpoints routing
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopEndpoints(this IApplicationBuilder application)
+        public static void UseVeEndpoints(this IApplicationBuilder application)
         {
             //Execute the endpoint selected by the routing middleware
             application.UseEndpoints(endpoints =>
@@ -415,7 +425,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Configure applying forwarded headers to their matching fields on the current request.
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopProxy(this IApplicationBuilder application)
+        public static void UseVeProxy(this IApplicationBuilder application)
         {
             
             var appSettings = EngineContext.Current.Resolve<AppSettings>();
@@ -458,12 +468,11 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Configure WebMarkupMin
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopWebMarkupMin(this IApplicationBuilder application)
+        public static void UseVeWebMarkupMin(this IApplicationBuilder application)
         {
             //check whether database is installed
             if (!DataSettingsManager.IsDatabaseInstalled())
                 return;
-
             application.UseWebMarkupMin();
         }
     }

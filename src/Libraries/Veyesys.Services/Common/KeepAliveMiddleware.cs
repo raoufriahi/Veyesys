@@ -40,7 +40,7 @@ namespace Veyesys.Services.Common
             if (DataSettingsManager.IsDatabaseInstalled())
             {
                 //keep alive page requested (we ignore it to prevent creating a guest customer records)
-                var keepAliveUrl = $"{webHelper.GetStoreLocation()}{NopCommonDefaults.KeepAlivePath}";
+                var keepAliveUrl = $"{webHelper.GetStoreLocation()}{VeCommonDefaults.KeepAlivePath}";
                 if (webHelper.GetThisPageUrl(false).StartsWith(keepAliveUrl, StringComparison.InvariantCultureIgnoreCase))
                     return;
             }

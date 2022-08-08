@@ -17,7 +17,7 @@ using Npgsql;
 
 namespace Veyesys.Data.DataProviders
 {
-    public class PostgreSqlDataProvider : BaseDataProvider, INopDataProvider
+    public class PostgreSqlDataProvider : BaseDataProvider, IVeDataProvider
     {
         #region Fields
 
@@ -72,13 +72,13 @@ namespace Veyesys.Data.DataProviders
             var descriptor = GetEntityDescriptor(typeof(TEntity));
 
             if (descriptor is null)
-                throw new VeyesysException($"Mapped entity descriptor is not found: {typeof(TEntity).Name}");
+                throw new VeException($"Mapped entity descriptor is not found: {typeof(TEntity).Name}");
 
             var tableName = descriptor.EntityName;
             var columnName = descriptor.Fields.FirstOrDefault(x => x.IsIdentity && x.IsPrimaryKey)?.Name;
 
             if (string.IsNullOrEmpty(columnName))
-                throw new VeyesysException("A table's primary key does not have an identity constraint");
+                throw new VeException("A table's primary key does not have an identity constraint");
 
             return dataConnection.Query<string>($"SELECT pg_get_serial_sequence('\"{tableName}\"', '{columnName}');")
                 .FirstOrDefault();
@@ -316,13 +316,13 @@ namespace Veyesys.Data.DataProviders
         /// </summary>
         /// <param name="nopConnectionString">Connection string info</param>
         /// <returns>Connection string</returns>
-        public virtual string BuildConnectionString(INopConnectionStringInfo nopConnectionString)
+        public virtual string BuildConnectionString(IVeConnectionStringInfo nopConnectionString)
         {
             if (nopConnectionString is null)
                 throw new ArgumentNullException(nameof(nopConnectionString));
 
             if (nopConnectionString.IntegratedSecurity)
-                throw new VeyesysException("Data provider supports connection only with login and password");
+                throw new VeException("Data provider supports connection only with login and password");
 
             var builder = new NpgsqlConnectionStringBuilder
             {
