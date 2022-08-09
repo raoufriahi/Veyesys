@@ -115,7 +115,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
             {
                 handler.Run(async context =>
                 {
-                    var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+                     var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
                     if (exception == null)
                         return;
 

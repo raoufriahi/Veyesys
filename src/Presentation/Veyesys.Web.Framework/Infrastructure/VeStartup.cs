@@ -12,7 +12,7 @@ using Veyesys.Core.Infrastructure;
 using Veyesys.Data;
 using Veyesys.Services.Events;
 using Veyesys.Services.Plugins;
-//using Veyesys.Services.Configuration;
+using Veyesys.Services.Configuration;
 //using Veyesys.Services.Customers;
 //using Veyesys.Services.Affiliates;
 //using Veyesys.Services.Authentication;
@@ -49,12 +49,12 @@ using Veyesys.Services.Logging;
 //using Veyesys.Services.Shipping;
 //using Veyesys.Services.Shipping.Date;
 //using Veyesys.Services.Shipping.Pickup;
-//using Veyesys.Services.Stores;
 //using Veyesys.Services.Tax;
 //using Veyesys.Services.Themes;
 //using Veyesys.Services.Topics;
 //using Veyesys.Services.Vendors;
 //using Veyesys.Web.Framework.Menu;
+using Veyesys.Services.Stores;
 using Veyesys.Web.Framework.Mvc.Routing;
 using Veyesys.Web.Framework.Themes;
 using Veyesys.Web.Framework.UI;
@@ -111,7 +111,7 @@ namespace Veyesys.Web.Framework.Infrastructure
             //services.AddScoped<IWorkContext, WebWorkContext>();
 
             //store context
-            //services.AddScoped<IStoreContext, WebStoreContext>();
+            services.AddScoped<IStoreContext, WebStoreContext>();
 
             //services
             //services.AddScoped<IBackInStockSubscriptionService, BackInStockSubscriptionService>();
@@ -141,7 +141,7 @@ namespace Veyesys.Web.Framework.Infrastructure
             //services.AddScoped<IVendorAttributeParser, VendorAttributeParser>();
             //services.AddScoped<IVendorAttributeService, VendorAttributeService>();
             //services.AddScoped<ISearchTermService, SearchTermService>();
-            //services.AddScoped<IGenericAttributeService, GenericAttributeService>();
+            services.AddScoped<IGenericAttributeService, GenericAttributeService>();
             //services.AddScoped<IMaintenanceService, MaintenanceService>();
             //services.AddScoped<ICustomerAttributeFormatter, CustomerAttributeFormatter>();
             //services.AddScoped<ICustomerAttributeParser, CustomerAttributeParser>();
@@ -157,7 +157,7 @@ namespace Veyesys.Web.Framework.Infrastructure
             //services.AddScoped<ICurrencyService, CurrencyService>();
             //services.AddScoped<IMeasureService, MeasureService>();
             //services.AddScoped<IStateProvinceService, StateProvinceService>();
-            //services.AddScoped<IStoreService, StoreService>();
+            services.AddScoped<IStoreService, StoreService>();
             //services.AddScoped<IStoreMappingService, StoreMappingService>();
             //services.AddScoped<IDiscountService, DiscountService>();
             //services.AddScoped<ILocalizationService, LocalizationService>();
@@ -239,18 +239,18 @@ namespace Veyesys.Web.Framework.Infrastructure
             //register all settings
             var typeFinder = Singleton<ITypeFinder>.Instance;
 
-            //var settings = typeFinder.FindClassesOfType(typeof(ISettings), false).ToList();
-            //foreach (var setting in settings)
-            //{
-            //    services.AddScoped(setting, serviceProvider =>
-            //    {
-            //        var storeId = DataSettingsManager.IsDatabaseInstalled()
-            //            ? serviceProvider.GetRequiredService<IStoreContext>().GetCurrentStore()?.Id ?? 0
-            //            : 0;
+            var settings = typeFinder.FindClassesOfType(typeof(ISettings), false).ToList();
+            foreach (var setting in settings)
+            {
+                services.AddScoped(setting, serviceProvider =>
+                {
+                    var storeId = DataSettingsManager.IsDatabaseInstalled()
+                        ? serviceProvider.GetRequiredService<IStoreContext>().GetCurrentStore()?.Id ?? 0
+                        : 0;
 
-            //        return  serviceProvider.GetRequiredService<ISettingService>().LoadSettingAsync(setting, storeId).Result;
-            //    });
-            //}
+                    return serviceProvider.GetRequiredService<ISettingService>().LoadSettingAsync(setting, storeId).Result;
+                });
+            }
 
             //picture service
             //if (appSettings.Get<AzureBlobConfig>().Enabled)
@@ -270,8 +270,8 @@ namespace Veyesys.Web.Framework.Infrastructure
             //});
 
             //installation service
-           // if (!DataSettingsManager.IsDatabaseInstalled())
-             //   services.AddScoped<IInstallationService, InstallationService>();
+            // if (!DataSettingsManager.IsDatabaseInstalled())
+            //   services.AddScoped<IInstallationService, InstallationService>();
 
             ////slug route transformer
             //if (DataSettingsManager.IsDatabaseInstalled())

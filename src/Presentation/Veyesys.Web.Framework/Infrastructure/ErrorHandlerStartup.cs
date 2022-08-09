@@ -40,10 +40,10 @@ namespace Veyesys.Web.Framework.Infrastructure
             //exception handling
             application.UseVeExceptionHandler();
 
-            //handle 400 errors (bad request)
+            ////handle 400 errors (bad request)
             application.UseBadRequestResult();
 
-            //handle 404 errors (not found)
+            ////handle 404 errors (not found)
             application.UsePageNotFound();
         }
 
