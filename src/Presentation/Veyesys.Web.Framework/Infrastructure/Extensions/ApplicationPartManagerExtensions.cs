@@ -22,7 +22,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
     {
         #region Fields
 
-        private static readonly INopFileProvider _fileProvider;
+        private static readonly IVeFileProvider _fileProvider;
         private static readonly List<string> _baseAppLibraries;
         private static readonly Dictionary<string, PluginLoadedAssemblyInfo> _loadedAssemblies = new();
         private static readonly ReaderWriterLockSlim _locker = new();
@@ -82,7 +82,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="assemblyFile">Path to the plugin assembly file</param>
         /// <param name="shadowCopyDirectory">Path to the shadow copy directory</param>
         /// <returns>Path to the shadow copied file</returns>
-        private static string ShadowCopyFile(INopFileProvider fileProvider, string assemblyFile, string shadowCopyDirectory)
+        private static string ShadowCopyFile(IVeFileProvider fileProvider, string assemblyFile, string shadowCopyDirectory)
         {
             //get path to the new shadow copied file
             var shadowCopiedFile = fileProvider.Combine(shadowCopyDirectory, fileProvider.GetFileName(assemblyFile));
@@ -179,7 +179,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="fileProvider">Nop file provider</param>
         /// <returns>Assembly</returns>
         private static Assembly PerformFileDeploy(this ApplicationPartManager applicationPartManager,
-            string assemblyFile, string shadowCopyDirectory, PluginConfig pluginConfig, INopFileProvider fileProvider)
+            string assemblyFile, string shadowCopyDirectory, PluginConfig pluginConfig, IVeFileProvider fileProvider)
         {
             //ensure for proper directory structure
             if (string.IsNullOrEmpty(assemblyFile) || string.IsNullOrEmpty(fileProvider.GetParentDirectory(assemblyFile)))

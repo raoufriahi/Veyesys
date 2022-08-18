@@ -17,13 +17,13 @@ namespace Veyesys.Core.Infrastructure
         #region Fields
 
         private bool _ignoreReflectionErrors = true;
-        protected INopFileProvider _fileProvider;
+        protected IVeFileProvider _fileProvider;
 
         #endregion
 
         #region Ctor
 
-        public AppDomainTypeFinder(INopFileProvider fileProvider = null)
+        public AppDomainTypeFinder(IVeFileProvider fileProvider = null)
         {
             _fileProvider = fileProvider ?? CommonHelper.DefaultFileProvider;
         }

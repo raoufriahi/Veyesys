@@ -95,7 +95,7 @@ namespace Veyesys.Web.Framework.Security
         /// <param name="checkDelete">Check delete</param>
         /// <returns>Result</returns>
         [SupportedOSPlatform("windows")]
-        private static bool CheckPermissionsInWindows(INopFileProvider fileProvider, string path, bool checkRead, bool checkWrite, bool checkModify, bool checkDelete)
+        private static bool CheckPermissionsInWindows(IVeFileProvider fileProvider, string path, bool checkRead, bool checkWrite, bool checkModify, bool checkDelete)
         {
             var permissionsAreGranted = true;
 
@@ -234,7 +234,7 @@ namespace Veyesys.Web.Framework.Security
         /// <param name="checkModify">Check modify</param>
         /// <param name="checkDelete">Check delete</param>
         /// <returns>Result</returns>
-        public static bool CheckPermissions(this INopFileProvider fileProvider, string path, bool checkRead, bool checkWrite, bool checkModify, bool checkDelete)
+        public static bool CheckPermissions(this IVeFileProvider fileProvider, string path, bool checkRead, bool checkWrite, bool checkModify, bool checkDelete)
         {
             var result = false;
 
@@ -256,7 +256,7 @@ namespace Veyesys.Web.Framework.Security
         /// Gets a list of directories (physical paths) which require write permission
         /// </summary>
         /// <returns>Result</returns>
-        public static IEnumerable<string> GetDirectoriesWrite(this INopFileProvider fileProvider)
+        public static IEnumerable<string> GetDirectoriesWrite(this IVeFileProvider fileProvider)
         {
             var rootDir = fileProvider.MapPath("~/");
 
@@ -283,7 +283,7 @@ namespace Veyesys.Web.Framework.Security
         /// Gets a list of files (physical paths) which require write permission
         /// </summary>
         /// <returns>Result</returns>
-        public static IEnumerable<string> GetFilesWrite(this INopFileProvider fileProvider)
+        public static IEnumerable<string> GetFilesWrite(this IVeFileProvider fileProvider)
         {
             return new List<string>
             {

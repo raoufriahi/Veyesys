@@ -1,6 +1,6 @@
 ﻿using Veyesys.Core.Configuration;
 
-namespace Nop.Core.Domain.Localization
+namespace Veyesys.Core.Domain.Localization
 {
     /// <summary>
     /// Localization settings

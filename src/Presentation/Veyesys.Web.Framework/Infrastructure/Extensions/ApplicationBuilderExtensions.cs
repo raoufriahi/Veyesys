@@ -231,7 +231,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseVeWebOptimizer(this IApplicationBuilder application)
         {
-            var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
+            var fileProvider = EngineContext.Current.Resolve<IVeFileProvider>();
             var webHostEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
 
             application.UseWebOptimizer(webHostEnvironment, new[]
@@ -256,7 +256,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         public static void UseVeStaticFiles(this IApplicationBuilder application)
         {
             
-            var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
+            var fileProvider = EngineContext.Current.Resolve<IVeFileProvider>();
             var appSettings = EngineContext.Current.Resolve<AppSettings>();
 
             void staticFileResponse(StaticFileResponseContext context)

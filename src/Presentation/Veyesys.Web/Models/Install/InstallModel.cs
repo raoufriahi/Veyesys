@@ -5,7 +5,7 @@ using Veyesys.Data;
 
 namespace Veyesys.Web.Models.Install
 {
-    public partial record InstallModel : IConnectionStringInfo
+    public partial record InstallModel : IVeConnectionStringInfo
     {
         public InstallModel()
         {

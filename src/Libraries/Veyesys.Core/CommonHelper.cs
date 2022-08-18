@@ -326,7 +326,7 @@ namespace Veyesys.Core
         /// <summary>
         /// Gets or sets the default file provider
         /// </summary>
-        public static INopFileProvider DefaultFileProvider { get; set; }
+        public static IVeFileProvider DefaultFileProvider { get; set; }
 
         #endregion
     }

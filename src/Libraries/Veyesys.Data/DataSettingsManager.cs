@@ -100,7 +100,7 @@ namespace Veyesys.Data
         /// <param name="fileProvider">File provider</param>
         /// <param name="reload">Force loading settings from disk</param>
         /// <returns>Data settings</returns>
-        public static DataConfig LoadSettings(INopFileProvider fileProvider = null, bool reload = false)
+        public static DataConfig LoadSettings(IVeFileProvider fileProvider = null, bool reload = false)
         {
             if (!reload && Singleton<DataConfig>.Instance is not null)
                 return Singleton<DataConfig>.Instance;
@@ -135,7 +135,7 @@ namespace Veyesys.Data
         /// </summary>
         /// <param name="dataSettings">Data settings</param>
         /// <param name="fileProvider">File provider</param>
-        public static void SaveSettings(DataConfig dataSettings, INopFileProvider fileProvider)
+        public static void SaveSettings(DataConfig dataSettings, IVeFileProvider fileProvider)
         {
             AppSettingsHelper.SaveAppSettings(new List<IConfig> { dataSettings }, fileProvider);
             LoadSettings(fileProvider, reload: true);

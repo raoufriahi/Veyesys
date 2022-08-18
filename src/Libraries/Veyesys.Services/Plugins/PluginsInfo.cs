@@ -20,7 +20,7 @@ namespace Veyesys.Services.Plugins
         private List<string> _installedPluginNames = new();
         private IList<PluginDescriptorBaseInfo> _installedPlugins = new List<PluginDescriptorBaseInfo>();
 
-        protected readonly INopFileProvider _fileProvider;
+        protected readonly IVeFileProvider _fileProvider;
 
         #endregion
 
@@ -94,7 +94,7 @@ namespace Veyesys.Services.Plugins
 
         #region Ctor
 
-        public PluginsInfo(INopFileProvider fileProvider)
+        public PluginsInfo(IVeFileProvider fileProvider)
         {
             _fileProvider = fileProvider;
         }

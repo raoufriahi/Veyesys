@@ -14,7 +14,7 @@ namespace Veyesys.Services.Helpers
     /// </summary>
     public class BrowscapXmlHelper
     {
-        private readonly INopFileProvider _fileProvider;
+        private readonly IVeFileProvider _fileProvider;
         private Regex _crawlerUserAgentsRegexp;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Veyesys.Services.Helpers
         /// <param name="userAgentStringsPath">User agent file path</param>
         /// <param name="crawlerOnlyUserAgentStringsPath">User agent with crawlers only file path</param>
         /// <param name="fileProvider">File provider</param>
-        public BrowscapXmlHelper(string userAgentStringsPath, string crawlerOnlyUserAgentStringsPath, INopFileProvider fileProvider)
+        public BrowscapXmlHelper(string userAgentStringsPath, string crawlerOnlyUserAgentStringsPath, IVeFileProvider fileProvider)
         {
             _fileProvider = fileProvider;
 

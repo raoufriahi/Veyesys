@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Veyesys.Core;
 using Veyesys.Core.Caching;
 using Veyesys.Core.Configuration;
-//using Veyesys.Core.Events;
+using Veyesys.Core.Events;
 using Veyesys.Core.Infrastructure;
 using Veyesys.Data;
 using Veyesys.Services.Events;
@@ -32,7 +32,7 @@ using Veyesys.Services.Common;
 //using Veyesys.Services.Gdpr;
 using Veyesys.Services.Helpers;
 //using Veyesys.Services.Html;
-//using Veyesys.Services.Installation;
+using Veyesys.Services.Installation;
 using Veyesys.Services.Localization;
 using Veyesys.Services.Logging;
 //using Veyesys.Services.Media;
@@ -44,7 +44,7 @@ using Veyesys.Services.Logging;
 //using Veyesys.Services.Plugins.Marketplace;
 //using Veyesys.Services.Polls;
 //using Veyesys.Services.ScheduleTasks;
-//using Veyesys.Services.Security;
+//
 //using Veyesys.Services.Seo;
 //using Veyesys.Services.Shipping;
 //using Veyesys.Services.Shipping.Date;
@@ -58,6 +58,7 @@ using Veyesys.Services.Stores;
 using Veyesys.Web.Framework.Mvc.Routing;
 using Veyesys.Web.Framework.Themes;
 using Veyesys.Web.Framework.UI;
+using Veyesys.Services.Security;
 
 namespace Veyesys.Web.Framework.Infrastructure
 {
@@ -74,7 +75,7 @@ namespace Veyesys.Web.Framework.Infrastructure
         public virtual void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             //file provider
-            services.AddScoped<INopFileProvider, VeFileProvider>();
+            services.AddScoped<IVeFileProvider, VeFileProvider>();
 
             //web helper
              services.AddScoped<IWebHelper, WebHelper>();
@@ -91,7 +92,7 @@ namespace Veyesys.Web.Framework.Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(EntityRepository<>));
 
             //plugins
-            //services.AddScoped<IPluginService, PluginService>();
+            services.AddScoped<IPluginService, PluginService>();
             //services.AddScoped<OfficialFeedManager>();
 
             //static cache manager
@@ -149,7 +150,7 @@ namespace Veyesys.Web.Framework.Infrastructure
             //services.AddScoped<ICustomerService, CustomerService>();
             //services.AddScoped<ICustomerRegistrationService, CustomerRegistrationService>();
             //services.AddScoped<ICustomerReportService, CustomerReportService>();
-            //services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<IPermissionService, PermissionService>();
             //services.AddScoped<IAclService, AclService>();
             //services.AddScoped<IPriceCalculationService, PriceCalculationService>();
             //services.AddScoped<IGeoLookupService, GeoLookupService>();
@@ -206,19 +207,19 @@ namespace Veyesys.Web.Framework.Infrastructure
             //services.AddScoped<INewsService, NewsService>();
             //services.AddScoped<IDateTimeHelper, DateTimeHelper>();
             //services.AddScoped<ISitemapGenerator, SitemapGenerator>();
-            //services.AddScoped<INopHtmlHelper, NopHtmlHelper>();
+            services.AddScoped<IVeHtmlHelper, VeHtmlHelper>();
             //services.AddScoped<IScheduleTaskService, ScheduleTaskService>();
             //services.AddScoped<IExportManager, ExportManager>();
             //services.AddScoped<IImportManager, ImportManager>();
             //services.AddScoped<IPdfService, PdfService>();
-            //services.AddScoped<IUploadService, UploadService>();
+             services.AddScoped<IUploadService, UploadService>();
             //services.AddScoped<IThemeProvider, ThemeProvider>();
             //services.AddScoped<IThemeContext, ThemeContext>();
             //services.AddScoped<IExternalAuthenticationService, ExternalAuthenticationService>();
             services.AddSingleton<IRoutePublisher, RoutePublisher>();
             //services.AddScoped<IReviewTypeService, ReviewTypeService>();
-            //services.AddSingleton<IEventPublisher, EventPublisher>();
-            //services.AddScoped<ISettingService, SettingService>();
+            services.AddSingleton<IEventPublisher, EventPublisher>();
+            services.AddScoped<ISettingService, SettingService>();
             //services.AddScoped<IBBCodeHelper, BBCodeHelper>();
             //services.AddScoped<IHtmlFormatter, HtmlFormatter>();
 
@@ -270,8 +271,8 @@ namespace Veyesys.Web.Framework.Infrastructure
             //});
 
             //installation service
-            // if (!DataSettingsManager.IsDatabaseInstalled())
-            //   services.AddScoped<IInstallationService, InstallationService>();
+             if (!DataSettingsManager.IsDatabaseInstalled())
+               services.AddScoped<IInstallationService, InstallationService>();
 
             ////slug route transformer
             //if (DataSettingsManager.IsDatabaseInstalled())

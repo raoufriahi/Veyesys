@@ -21,7 +21,7 @@ namespace Veyesys.Services.Helpers
 
         private readonly AppSettings _appSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly INopFileProvider _fileProvider;
+        private readonly IVeFileProvider _fileProvider;
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace Veyesys.Services.Helpers
 
         public UserAgentHelper(AppSettings appSettings,
             IHttpContextAccessor httpContextAccessor,
-            INopFileProvider fileProvider)
+            IVeFileProvider fileProvider)
         {
             _appSettings = appSettings;
             _httpContextAccessor = httpContextAccessor;

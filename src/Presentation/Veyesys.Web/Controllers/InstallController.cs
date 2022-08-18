@@ -30,7 +30,7 @@ namespace Veyesys.Web.Controllers
         private readonly AppSettings _appSettings;
         private readonly Lazy<IInstallationLocalizationService> _locService;
         private readonly Lazy<IInstallationService> _installationService;
-        private readonly INopFileProvider _fileProvider;
+        private readonly IVeFileProvider _fileProvider;
         private readonly Lazy<IPermissionService> _permissionService;
         private readonly Lazy<IPluginService> _pluginService;
         private readonly Lazy<IStaticCacheManager> _staticCacheManager;
@@ -45,7 +45,7 @@ namespace Veyesys.Web.Controllers
         public InstallController(AppSettings appSettings,
             Lazy<IInstallationLocalizationService> locService,
             Lazy<IInstallationService> installationService,
-            INopFileProvider fileProvider,
+            IVeFileProvider fileProvider,
             Lazy<IPermissionService> permissionService,
             Lazy<IPluginService> pluginService,
             Lazy<IStaticCacheManager> staticCacheManager,

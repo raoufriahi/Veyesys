@@ -28,7 +28,7 @@ namespace Veyesys.Core.Configuration
         /// <param name="fileProvider">File provider</param>
         /// <param name="overwrite">Whether to overwrite appsettings file</param>
         /// <returns>App settings</returns>
-        public static AppSettings SaveAppSettings(IList<IConfig> configurations, INopFileProvider fileProvider, bool overwrite = true)
+        public static AppSettings SaveAppSettings(IList<IConfig> configurations, IVeFileProvider fileProvider, bool overwrite = true)
         {
             if (configurations is null)
                 throw new ArgumentNullException(nameof(configurations));

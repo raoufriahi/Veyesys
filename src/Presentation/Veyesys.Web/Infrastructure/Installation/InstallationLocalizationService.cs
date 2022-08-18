@@ -24,7 +24,7 @@ namespace Veyesys.Web.Infrastructure.Installation
         #region Fields
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly INopFileProvider _fileProvider;
+        private readonly IVeFileProvider _fileProvider;
         private readonly IWebHelper _webHelper;
 
         private IList<InstallationLanguage> _availableLanguages;
@@ -34,7 +34,7 @@ namespace Veyesys.Web.Infrastructure.Installation
         #region Ctor
 
         public InstallationLocalizationService(IHttpContextAccessor httpContextAccessor,
-            INopFileProvider fileProvider,
+            IVeFileProvider fileProvider,
             IWebHelper webHelper)
         {
             _httpContextAccessor = httpContextAccessor;

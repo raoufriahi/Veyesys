@@ -18,7 +18,7 @@ namespace Veyesys.Core.Infrastructure
 
         #region Ctor
 
-        public WebAppTypeFinder(INopFileProvider fileProvider = null) : base(fileProvider)
+        public WebAppTypeFinder(IVeFileProvider fileProvider = null) : base(fileProvider)
         {
         }
 

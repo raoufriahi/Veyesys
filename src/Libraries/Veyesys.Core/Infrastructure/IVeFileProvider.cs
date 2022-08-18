@@ -10,7 +10,7 @@ namespace Veyesys.Core.Infrastructure
     /// <summary>
     /// A file provider abstraction
     /// </summary>
-    public interface INopFileProvider : IFileProvider
+    public interface IVeFileProvider : IFileProvider
     {
         /// <summary>
         /// Combines an array of strings into a path

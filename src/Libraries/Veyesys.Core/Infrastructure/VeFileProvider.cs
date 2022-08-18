@@ -15,7 +15,7 @@ namespace Veyesys.Core.Infrastructure
     /// <summary>
     /// IO functions using the on-disk file system
     /// </summary>
-    public class VeFileProvider : PhysicalFileProvider, INopFileProvider
+    public class VeFileProvider : PhysicalFileProvider, IVeFileProvider
     {
         /// <summary>
         /// Initializes a new instance of a VeFileProvider
