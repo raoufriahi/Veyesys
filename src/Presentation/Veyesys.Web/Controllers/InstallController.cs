@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * Copyright (c) 2022-2023 Veyesys
+ *
+ * The computer program contained herein contains proprietary
+ * information which is the property of Veyesys.
+ * The program may be used and/or copied only with the written
+ * permission of Veyesys or in accordance with the
+ * terms and conditions stipulated in the agreement/contract under
+ * which the programs have been supplied.
+ */
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -36,7 +46,7 @@ namespace Veyesys.Web.Controllers
         private readonly Lazy<IStaticCacheManager> _staticCacheManager;
         private readonly Lazy<IUploadService> _uploadService;
         private readonly Lazy<IWebHelper> _webHelper;
-        private readonly Lazy<VeHttpClient> _nopHttpClient;
+        private readonly Lazy<VeHttpClient> _veHttpClient;
 
         #endregion
 
@@ -51,7 +61,7 @@ namespace Veyesys.Web.Controllers
             Lazy<IStaticCacheManager> staticCacheManager,
             Lazy<IUploadService> uploadService,
             Lazy<IWebHelper> webHelper,
-            Lazy<VeHttpClient> nopHttpClient)
+            Lazy<VeHttpClient> veHttpClient)
         {
             _appSettings = appSettings;
             _locService = locService;
@@ -62,7 +72,7 @@ namespace Veyesys.Web.Controllers
             _staticCacheManager = staticCacheManager;
             _uploadService = uploadService;
             _webHelper = webHelper;
-            _nopHttpClient = nopHttpClient;
+            _veHttpClient = veHttpClient;
         }
 
         #endregion
@@ -130,12 +140,13 @@ namespace Veyesys.Web.Controllers
 
         public virtual IActionResult Index()
         {
+
             if (DataSettingsManager.IsDatabaseInstalled())
                 return RedirectToRoute("Homepage");
 
             var model = new InstallModel
             {
-                AdminEmail = "admin@yourStore.com",
+                AdminEmail = "admin@veyesys.com",
                 InstallSampleData = false,
                 InstallRegionalResources = _appSettings.Get<InstallationConfig>().InstallRegionalResources,
                 DisableSampleDataOption = _appSettings.Get<InstallationConfig>().DisableSampleData,
@@ -154,6 +165,7 @@ namespace Veyesys.Web.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Index(InstallModel model)
         {
+            return RedirectToRoute("Login");//raouf
             if (DataSettingsManager.IsDatabaseInstalled())
                 return RedirectToRoute("Homepage");
 
@@ -194,15 +206,15 @@ namespace Veyesys.Web.Controllers
             {
                 var dataProvider = DataProviderManager.GetDataProvider(model.DataProvider);
 
-                //var connectionString = model.ConnectionStringRaw ? model.ConnectionString : dataProvider.BuildConnectionString(model);
+                var connectionString = model.ConnectionStringRaw ? model.ConnectionString : dataProvider.BuildConnectionString(model);
 
-                //if (string.IsNullOrEmpty(connectionString))
-                //    throw new Exception(_locService.Value.GetResource("ConnectionStringWrongFormat"));
+                if (string.IsNullOrEmpty(connectionString))
+                    throw new Exception(_locService.Value.GetResource("ConnectionStringWrongFormat"));
 
                 DataSettingsManager.SaveSettings(new DataConfig
                 {
                     DataProvider = model.DataProvider,
-                    ConnectionString = string.Empty    //connectionString
+                    ConnectionString = connectionString
                 }, _fileProvider);
 
                 if (model.CreateDatabaseIfNotExists)
@@ -245,7 +257,7 @@ namespace Veyesys.Web.Controllers
                         try
                         {
                             var languageCode = _locService.Value.GetCurrentLanguage().Code[0..2];
-                            var resultString = await _nopHttpClient.Value.InstallationCompletedAsync(model.AdminEmail, languageCode, cultureInfo.Name);
+                            var resultString = await _veHttpClient.Value.InstallationCompletedAsync(model.AdminEmail, languageCode, cultureInfo.Name);
                             var result = JsonConvert.DeserializeAnonymousType(resultString,
                                 new { Message = string.Empty, LanguagePack = new { Culture = string.Empty, Progress = 0, DownloadLink = string.Empty } });
                             if (result.LanguagePack.Progress > VeCommonDefaults.LanguagePackMinTranslationProgressToInstall)
@@ -314,6 +326,7 @@ namespace Veyesys.Web.Controllers
 
         public virtual IActionResult ChangeLanguage(string language)
         {
+
             if (DataSettingsManager.IsDatabaseInstalled())
                 return RedirectToRoute("Homepage");
 
@@ -326,6 +339,7 @@ namespace Veyesys.Web.Controllers
         [HttpPost]
         public virtual IActionResult RestartInstall()
         {
+
             if (DataSettingsManager.IsDatabaseInstalled())
                 return RedirectToRoute("Homepage");
 
@@ -334,6 +348,7 @@ namespace Veyesys.Web.Controllers
 
         public virtual IActionResult RestartApplication()
         {
+
             if (DataSettingsManager.IsDatabaseInstalled())
                 return RedirectToRoute("Homepage");
 

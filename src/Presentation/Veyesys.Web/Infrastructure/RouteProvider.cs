@@ -32,11 +32,6 @@ namespace Veyesys.Web.Infrastructure
                 pattern: $"{lang}",
                 defaults: new { controller = "Home", action = "Index" });
 
-            //login
-            endpointRouteBuilder.MapControllerRoute(name: "Login",
-                pattern: $"{lang}/login/",
-                defaults: new { controller = "Customer", action = "Login" });
-
             // multi-factor verification digit code page
             endpointRouteBuilder.MapControllerRoute(name: "MultiFactorVerification",
                 pattern: $"{lang}/multi-factor-verification/",
@@ -691,6 +686,12 @@ namespace Veyesys.Web.Infrastructure
             endpointRouteBuilder.MapControllerRoute(name: "PageNotFound",
                 pattern: $"{lang}/page-not-found",
                 defaults: new { controller = "Common", action = "PageNotFound" });
+
+            //Login
+            endpointRouteBuilder.MapControllerRoute(name: "Login",
+                pattern: $"{lang}/Login",
+                defaults: new { controller = "Login", action = "Login" });
+
         }
 
         #endregion

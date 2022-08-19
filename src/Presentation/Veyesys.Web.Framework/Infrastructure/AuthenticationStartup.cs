@@ -19,10 +19,10 @@ namespace Veyesys.Web.Framework.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             //add data protection
-            services.AddNopDataProtection();
+            services.AddVeDataProtection();
 
             //add authentication
-            services.AddNopAuthentication();
+            services.AddVeAuthentication();
         }
 
         /// <summary>

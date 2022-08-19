@@ -36,7 +36,7 @@ namespace Veyesys.Services.Common
         /// <returns>A task that represents the asynchronous operation</returns>
         public async Task InvokeAsync(HttpContext context, IWebHelper webHelper)
         {
-            //whether database is installed
+            ////whether database is installed
             if (DataSettingsManager.IsDatabaseInstalled())
             {
                 //keep alive page requested (we ignore it to prevent creating a guest customer records)
@@ -46,6 +46,7 @@ namespace Veyesys.Services.Common
             }
 
             //or call the next middleware in the request pipeline
+
             await _next(context);
         }
 

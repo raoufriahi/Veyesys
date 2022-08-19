@@ -147,7 +147,6 @@ namespace Veyesys.Data
         public static bool IsDatabaseInstalled()
         {
             _databaseIsInstalled ??= !string.IsNullOrEmpty(LoadSettings()?.ConnectionString);
-
             return _databaseIsInstalled.Value;
         }
 

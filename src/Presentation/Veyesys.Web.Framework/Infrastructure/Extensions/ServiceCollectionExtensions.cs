@@ -197,7 +197,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Adds data protection services
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
-        public static void AddNopDataProtection(this IServiceCollection services)
+        public static void AddVeDataProtection(this IServiceCollection services)
         {
             
             var appSettings = Singleton<AppSettings>.Instance;
@@ -233,7 +233,7 @@ namespace Veyesys.Web.Framework.Infrastructure.Extensions
         /// Adds authentication service
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
-        public static void AddNopAuthentication(this IServiceCollection services)
+        public static void AddVeAuthentication(this IServiceCollection services)
         {
             //set default authentication schemes
             var authenticationBuilder = services.AddAuthentication(options =>
