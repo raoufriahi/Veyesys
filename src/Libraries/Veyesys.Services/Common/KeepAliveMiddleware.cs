@@ -37,7 +37,7 @@ namespace Veyesys.Services.Common
         public async Task InvokeAsync(HttpContext context, IWebHelper webHelper)
         {
             ////whether database is installed
-            if (DataSettingsManager.IsDatabaseInstalled())
+            if (!DataSettingsManager.IsDatabaseInstalled())
             {
                 //keep alive page requested (we ignore it to prevent creating a guest customer records)
                 var keepAliveUrl = $"{webHelper.GetStoreLocation()}{VeCommonDefaults.KeepAlivePath}";

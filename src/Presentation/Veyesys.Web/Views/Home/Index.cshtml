@@ -1,38 +1,49 @@
-﻿@using Veyesys.Core.Domain.Seo
-@inject SeoSettings seoSettings
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
 
+@model LoginViewModel
 @{
-    Layout = "_ColumnsOne";
-
-    //title
-    if (!string.IsNullOrEmpty(seoSettings.HomepageTitle))
-    {
-        NopHtml.AddTitleParts(seoSettings.HomepageTitle);
-    }
-
-    //meta
-    if (!string.IsNullOrEmpty(seoSettings.HomepageDescription))
-    {
-        NopHtml.AddMetaDescriptionParts(seoSettings.HomepageDescription);
-    }
-
-    //page class
-    NopHtml.AppendPageCssClassParts("html-home-page");
+    Layout = "_LayoutAdminlteBlank";
 }
-<div class="page home-page">
-    <div class="page-body">
-        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageTop })
-        @await Component.InvokeAsync("TopicBlock", new { systemName = "HomepageText" })
-        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeCategories })
-        @await Component.InvokeAsync("HomepageCategories")
-        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeProducts })
-        @await Component.InvokeAsync("HomepageProducts")
-        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeBestSellers })
-        @await Component.InvokeAsync("HomepageBestSellers")
-        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeNews })
-        @await Component.InvokeAsync("HomepageNews")
-        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforePoll })
-        @await Component.InvokeAsync("HomepagePolls")
-        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBottom })
-    </div>
+
+<div class="login-box-body">
+    <p class="login-box-msg"><b>Sign in to start your session</b></p>
+     <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+        <div class="form-group has-feedback">
+            <label asp-for="Username"></label>
+            <input asp-for="Username" class="form-control"  />
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+          <div class="form-group has-feedback">
+            <label asp-for="Language"></label>
+            <select asp-for="Language" class="form-control" ></select>
+            <span class="glyphicon glyphicon-th-list form-control-feedback"></span>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Log In</button>
+            </div>
+        </div>
+    </form>
 </div>
+
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $(document).ready(function () { 
+            var error = $('#error').val();
+            if (error) {
+                ShowMessageError(error);
+            }  
+        });
+    </script>
+}

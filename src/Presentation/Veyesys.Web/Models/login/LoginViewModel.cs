@@ -14,17 +14,16 @@ namespace Veyesys.Web.Models.login
         }
 
         [Required]
+        [DataType(DataType.Text)]
         public string Username { get; set; }
 
-        [Required]
-        public string language { get; set; }
+ 
+        public string Language { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
 
         public List<SelectListItem> AvailableLanguages { get; set; }
     }

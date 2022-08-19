@@ -36,18 +36,18 @@ namespace Veyesys.Services.Installation
         /// <returns>A task that represents the asynchronous operation</returns>
         public async Task InvokeAsync(HttpContext context, IWebHelper webHelper)
         {
-            //whether database is installed
-            if (!DataSettingsManager.IsDatabaseInstalled())
-            {
-                var installUrl = $"{webHelper.GetStoreLocation()}Login"; // {VeInstallationDefaults.InstallPath}";
-                if (!webHelper.GetThisPageUrl(false).StartsWith(installUrl, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    //redirect
-                    context.Response.Redirect(installUrl);
+            ////whether database is installed
+            //if (!DataSettingsManager.IsDatabaseInstalled())
+            //{
+            //    var installUrl = $"{webHelper.GetStoreLocation()}Login"; // {VeInstallationDefaults.InstallPath}";
+            //    if (!webHelper.GetThisPageUrl(false).StartsWith(installUrl, StringComparison.InvariantCultureIgnoreCase))
+            //    {
+            //        //redirect
+            //        context.Response.Redirect(installUrl);
 
-                    return;
-                }
-            }
+            //        return;
+            //    }
+            //}
 
             //or call the next middleware in the request pipeline
             await _next(context);
