@@ -150,6 +150,10 @@ namespace Veyesys.Data
             return _databaseIsInstalled.Value;
         }
 
+        public static bool DatabaseInstalled{
+            get;
+            set;
+            }
         /// <summary>
         /// Gets the command execution timeout.
         /// </summary>

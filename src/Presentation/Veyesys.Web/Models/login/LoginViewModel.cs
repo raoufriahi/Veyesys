@@ -15,9 +15,11 @@ namespace Veyesys.Web.Models.login
 
         [Required]
         [DataType(DataType.Text)]
+        [StringLength(20, MinimumLength = 3)]
         public string Username { get; set; }
 
- 
+        [Required]
+        [DataType(DataType.Text)]
         public string Language { get; set; }
 
         [Required]

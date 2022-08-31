@@ -6,6 +6,12 @@ namespace Veyesys.Web.Controllers
     {
         public virtual IActionResult Index()
         {
+
+            return RedirectToRoute("Login");
+        }
+
+        public virtual IActionResult Home()
+        {
             return View();
         }
     }

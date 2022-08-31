@@ -36,7 +36,7 @@ namespace Veyesys.Services.Installation
         /// <returns>A task that represents the asynchronous operation</returns>
         public async Task InvokeAsync(HttpContext context, IWebHelper webHelper)
         {
-            ////whether database is installed
+            //////whether database is installed
             //if (!DataSettingsManager.IsDatabaseInstalled())
             //{
             //    var installUrl = $"{webHelper.GetStoreLocation()}Login"; // {VeInstallationDefaults.InstallPath}";

@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Veyesys.Web.Models.login;
 using Veyesys.Web.Infrastructure.Installation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using System.Linq;
+using Veyesys.Core;
+using Veyesys.Data;
 namespace Veyesys.Web.Controllers
 {
     [AutoValidateAntiforgeryToken]
@@ -28,18 +30,28 @@ namespace Veyesys.Web.Controllers
         // GET: LoginController
         public ActionResult Login()
         {
-
             var model = new LoginViewModel
             {
                 Username = "Raul",
                 Password = "123456"  
             };
             // model = PrepareLanguageList(model);
-    
             return View(model);
         }
 
-      
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string username, string password)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToRoute("Home");
+            }
+            return View();
+        }
+
+
         private LoginViewModel PrepareLanguageList(LoginViewModel model)
         {
             foreach (var lang in _locService.Value.GetAvailableLanguages())
@@ -51,7 +63,6 @@ namespace Veyesys.Web.Controllers
                     Selected = _locService.Value.GetCurrentLanguage().Code == lang.Code
                 });
             }
-
             return model;
         }
     }

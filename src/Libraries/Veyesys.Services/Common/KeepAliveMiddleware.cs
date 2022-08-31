@@ -45,6 +45,8 @@ namespace Veyesys.Services.Common
                     return;
             }
 
+          
+
             //or call the next middleware in the request pipeline
 
             await _next(context);
