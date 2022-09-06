@@ -1,0 +1,35 @@
+﻿                <div id="header-right">
+                  <div class="user-profile dropdown">
+                    <a href="#" title="" class="user-ico clearfix" data-toggle="dropdown">
+                      <i class="glyph-icon icon-users"></i>
+                    </a> @{ await Html.RenderPartialAsync("_User"); }
+                  </div>
+                  <div class="top-icon-bar float-right">
+                    <div class="dropdown">
+                      <a data-toggle="dropdown" href="#" title="">
+                        <i class="glyph-icon icon-arrows-alt"></i>
+                      </a>
+                    </div>
+                    <div class="dropdown">
+                      <a href="#" data-toggle="dropdown" data-placement="left" class="popover-button-header tooltip-button" title="Alarm"> @{ await Html.RenderPartialAsync("_Alarm"); } </a>
+                    </div>
+                    <div class="dropdown" id="lang">
+                      <a href="#" title="" class="user-ico clearfix" data-toggle="dropdown">
+                        <img width="36" src="../assets/drap/fr.png" alt="">
+                        <i class="glyph-icon icon-chevron-down"></i>
+                      </a> @{ await Html.RenderPartialAsync("_Lang"); }
+                    </div>
+                    <div class="dropdown">
+                      <a data-toggle="dropdown" href="#" title="">
+                        <i class="glyph-icon icon-reddit tooltip-button" title="Theme"></i>
+                      </a> @{ await Html.RenderPartialAsync("_Theme"); }
+                    </div>
+                    <div class="dropdown">
+                      <a data-toggle="dropdown" href="#" title="">
+                        <i class="glyph-icon icon-th tooltip-button" title="Type d'affichage'"></i>
+                      </a> @{ await Html.RenderPartialAsync("_display_type"); }
+                    </div>
+                  </div>
+                </div>
+
+

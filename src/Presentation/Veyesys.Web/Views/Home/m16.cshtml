@@ -1,0 +1,10 @@
+﻿
+<div class="row"> 
+
+   @for(var i = 0; i < 16; i++)
+    {
+         <div class="col-md-3">
+         @{ await Html.RenderPartialAsync("element");}
+         </div>
+    }
+</div>

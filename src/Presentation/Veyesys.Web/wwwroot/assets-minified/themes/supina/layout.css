@@ -212,8 +212,9 @@ display: inline-block;
 }
 #tab-example-4 img{width:30px;}
 #page-nav {
-	background: none !important;
-	height:100%;
+	position: relative;
+	height: 100%;
+	padding: 0 10px;
 }
 #page-nav-left {
 	position: absolute;

@@ -1,0 +1,38 @@
+﻿<!-- Matrice1.1 -->
+<div class="dashboard-box bg-orange" id="vin">
+  <div class="content-wrapper ">
+    <div id="flux">
+      <img id="imageJpegId" src="~/assets-minified/images/ImgLogo.png" alt="logo" style="display: none;" />
+      <img id="imageCamera" src="~/assets-minified/images/imageCamera.png" alt="logo" style="display: none;" />
+     <canvas class="can" id="myCanvas" style="border:0px solid #d3d3d3;">
+      </canvas>
+      
+    </div>
+    <span class="bs-badge badge-absolute float-right badge-success" style="min-width:15px;height:15px;top: 0px;"></span>
+    <div class="sous_sous_menu_joystick"></div>
+  </div>
+  <!-- block nom du caméra -->
+  <div class="button-pane pn1 show ">
+    <input id="nameCamera" type="text" class="camname" size="25" value="Nom du caméra" />
+  </div>
+  <!-- groupe boutons principales -->
+  <div class="button-pane show bg-orange">
+       <a href="#" class="btn float-right" data-placement="left" id="fullscreen" onclick="">
+        <i class="glyph-icon icon-arrows-alt"></i>
+      </a>
+   <a href="#" class="btn float-right" data-placement="left" id="capture" onclick="">
+        <i class="glyph-icon icon-camera"></i>
+      </a>
+      <a href="#" class="btn float-right" data-placement="left" id="pause" onclick="">
+        <i class="glyph-icon icon-pause"></i>
+      </a>
+     <a href="#" class="btn float-right" data-placement="left" id="play" onclick="">
+        <i class="glyph-icon icon-play"></i>
+      </a>
+      <a href="#" class="btn float-right" data-placement="left" id="stop" onclick="">
+        <i class="glyph-icon icon-stop"></i>
+      </a>
+  </div>
+  <div class="sous_menu"></div>
+</div>
+<!-- Matrice1.1 fin -->
